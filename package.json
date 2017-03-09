@@ -3,7 +3,7 @@
     "displayName": "JSONPath StatusBar",
     "icon": "resources/icon.svg",
     "description": "Shows the path to the selected JSON Property in the StatusBar",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": "Rich Somerfield",
     "publisher": "richie5um2",
     "engines": {
@@ -23,7 +23,7 @@
         "Other"
     ],
     "activationEvents": [
-        "*"
+        "onLanguage:json"
     ],
     "main": "./out/src/extension",
     "contributes": {

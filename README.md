@@ -2,7 +2,7 @@
 
 Shows the path to the selected JSON Property in the StatusBar.
 
-\!\[JSONPath\]\(resources/jsonpath.png\)
+![JSONPath](resources/jsonpath.png)
 
 ## Known Issues
 

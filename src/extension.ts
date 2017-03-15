@@ -4,11 +4,15 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+import * as copyPaste from 'copy-paste';
+
 import { jsonPathTo } from './jsonPathTo'
+
+let currentString: string = '';
 
 export function activate(context: vscode.ExtensionContext) {
 
-    console.log('Congratulations, your extension "statusBarJSONPath" is now active!');
+    // console.log('Congratulations, your extension "statusBarJSONPath" is now active!');
 
     const status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     status.command = 'extension.statusBarJSONPath';
@@ -21,9 +25,9 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => updateStatus(status)));
     context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(e => updateStatus(status)));
 
-    // context.subscriptions.push(vscode.commands.registerCommand('extension.statusBarJSONPath', () => {
-    //     vscode.window.showInformationMessage('Hello JSON Path');
-    // }));
+    context.subscriptions.push(vscode.commands.registerCommand('extension.statusBarJSONPath', () => {
+        copyPaste.copy(currentString);
+    }));
 
     updateStatus(status);
 }
@@ -39,6 +43,7 @@ function updateStatus(status: vscode.StatusBarItem): void {
         const text = editor.document.getText()
         JSON.parse(text)
         const path = jsonPathTo(text, editor.document.offsetAt(editor.selection.active))
+        currentString = path;
 
         status.text = 'Path: ' + path;
     } catch (ex) {

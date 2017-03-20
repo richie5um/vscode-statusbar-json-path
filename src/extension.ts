@@ -48,7 +48,7 @@ function updateStatus(status: vscode.StatusBarItem): void {
         status.text = 'Path: ' + path;
     } catch (ex) {
         if (ex instanceof SyntaxError) {
-            status.text = `Invalid JSON.`;
+            status.text = `JSONPath: Invalid JSON`;
         } else {
             status.text = `Error in JSONPath`;
         }

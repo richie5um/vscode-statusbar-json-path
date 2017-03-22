@@ -45,13 +45,15 @@ function updateStatus(status: vscode.StatusBarItem): void {
         const path = jsonPathTo(text, editor.document.offsetAt(editor.selection.active))
         currentString = path;
 
-        status.text = 'Path: ' + path;
+        status.text = 'JSONPath: ' + path;
+        status.tooltip = 'Click to copy to clipboard';
     } catch (ex) {
         if (ex instanceof SyntaxError) {
             status.text = `JSONPath: Invalid JSON`;
         } else {
             status.text = `Error in JSONPath`;
         }
+        status.tooltip = undefined;
     }
 }
 

@@ -9,12 +9,12 @@ import * as copyPaste from 'copy-paste';
 import { jsonPathTo } from './jsonPathTo'
 
 let currentString: string = '';
+let status;
 
 export function activate(context: vscode.ExtensionContext) {
 
     // console.log('Congratulations, your extension "statusBarJSONPath" is now active!');
-
-    const status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     status.command = 'extension.statusBarJSONPath';
     status.show();
     context.subscriptions.push(status);
@@ -34,23 +34,27 @@ export function activate(context: vscode.ExtensionContext) {
 
 function updateStatus(status: vscode.StatusBarItem): void {
 
+    currentString = '';
+
     const editor = vscode.window.activeTextEditor
-    if (!editor) {
+    if (!editor || editor.document.languageId.toLowerCase() !== 'json') {
+        status.text = '';
         return
     }
 
     try {
         const text = editor.document.getText()
-        JSON.parse(text)
+        //JSON.parse(text)
+
         const path = jsonPathTo(text, editor.document.offsetAt(editor.selection.active))
         currentString = path;
 
         status.text = 'Path: ' + path;
     } catch (ex) {
         if (ex instanceof SyntaxError) {
-            status.text = `Invalid JSON.`;
+            status.text = `Path: Invalid JSON for JSONPath.`;
         } else {
-            status.text = `Error in JSONPath`;
+            status.text = `Path: Error in JSONPath`;
         }
     }
 }

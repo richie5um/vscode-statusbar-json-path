@@ -4,7 +4,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import * as copyPaste from 'copy-paste';
+import * as clipboardy from 'clipboardy';
 
 import { jsonPathTo } from './jsonPathTo'
 
@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(e => updateStatus(status)));
 
     context.subscriptions.push(vscode.commands.registerCommand('extension.statusBarJSONPath', () => {
-        copyPaste.copy(currentString);
+        clipboardy.write(currentString);
     }));
 
     updateStatus(status);

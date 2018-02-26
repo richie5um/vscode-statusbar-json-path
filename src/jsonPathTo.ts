@@ -82,9 +82,42 @@ function pathToString(path: Frame[]): string {
 
 function readString(text: string, pos: number): { text: string, pos: number } {
     let i = pos + 1
-    while (!(text[i] == '"' && text[i - 1] != '\\')) i++
-    return {
+    i = findEndQuote(text, i)
+    var textpos = {
         text: text.substring(pos + 1, i),
         pos: i + 1
     }
+
+    // console.log('ReadString: text:' + textpos.text + ' :: pos: ' + pos)
+    return textpos
 }
+
+function isEven(n) {
+    return n % 2 == 0;
+}
+
+function isOdd(n) {
+    return !isEven(n)
+}
+
+// Find the next end quote
+function findEndQuote(text: string, i: number) {
+    while (i < text.length) {
+        // console.log('findEndQuote: ' + i + ' : ' + text[i])
+        if (text[i] == '"') {
+            var bt = i
+
+            // Handle backtracking to find if this quote is escaped (or, if the escape is escaping a slash)
+            while (0 <= bt && text[bt] == '\\') {
+                bt--
+            }
+            if (isEven(i - bt)) {
+                break;
+            }
+        }
+        i++
+    }
+
+    return i
+}
+

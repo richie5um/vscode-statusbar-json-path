@@ -37,7 +37,7 @@ function updateStatus(status: vscode.StatusBarItem): void {
     currentString = '';
 
     const editor = vscode.window.activeTextEditor
-    if (!editor || editor.document.languageId.toLowerCase() !== 'json') {
+    if (!(editor || editor.document.languageId.toLowerCase() === 'json' || editor.document.languageId.toLowerCase() === 'jsonc')) {
         status.text = '';
         return
     }

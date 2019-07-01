@@ -3,7 +3,7 @@
     "displayName": "JSONPath StatusBar",
     "icon": "resources/icon.png",
     "description": "Shows the path to the selected JSON Property in the StatusBar",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "author": "Rich Somerfield",
     "publisher": "richie5um2",
     "engines": {

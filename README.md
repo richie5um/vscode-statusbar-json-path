@@ -10,6 +10,7 @@ Shows the path to the selected JSON Property in the StatusBar.
 * StatusBar item now copies to Clipboard - thanks to Tyderion.
 * Switched clipboard package - thanks to floatdrop
 * Fixed issue with slashes preceeding quotes
+* Fixed issue with file detection - thanks to Outrigger047
 
 ## Known Issues
 

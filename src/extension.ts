@@ -4,8 +4,6 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import * as clipboardy from 'clipboardy';
-
 import { jsonPathTo } from './jsonPathTo'
 
 let currentString: string = '';
@@ -25,8 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => updateStatus(status)));
     context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(e => updateStatus(status)));
 
-    context.subscriptions.push(vscode.commands.registerCommand('extension.statusBarJSONPath', () => {
-        clipboardy.write(currentString);
+    context.subscriptions.push(vscode.commands.registerCommand('extension.statusBarJSONPath', async () => {
+        await vscode.env.clipboard.writeText(currentString);
     }));
 
     updateStatus(status);

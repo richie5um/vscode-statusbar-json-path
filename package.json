@@ -1,32 +1,15 @@
 {
-    "name": "vscode-statusbar-json-path",
-    "displayName": "JSONPath StatusBar",
-    "icon": "resources/icon.png",
-    "description": "Shows the path to the selected JSON Property in the StatusBar",
-    "version": "1.4.0",
-    "author": "Rich Somerfield",
-    "publisher": "richie5um2",
-    "engines": {
-        "vscode": "^1.30.0"
-    },
-    "license": "MIT",
-    "homepage": "https://github.com/richie5um/vscode-statusbar-json-path",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/richie5um/vscode-statusbar-json-path"
-    },
-    "bugs": {
-        "url": "https://github.com/richie5um/vscode-statusbar-json-path/issues"
-    },
-    "typings": "/node_modules/vscode/vscode.d.ts",
-    "categories": [
-        "Other"
-    ],
     "activationEvents": [
         "onLanguage:json",
         "onLanguage:jsonc"
     ],
-    "main": "./out/src/extension",
+    "author": "Rich Somerfield",
+    "bugs": {
+        "url": "https://github.com/richie5um/vscode-statusbar-json-path/issues"
+    },
+    "categories": [
+        "Other"
+    ],
     "contributes": {
         "commands": [
             {
@@ -35,20 +18,35 @@
             }
         ]
     },
-    "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
+    "dependencies": {},
+    "description": "Shows the path to the selected JSON Property in the StatusBar",
     "devDependencies": {
-        "@types/mocha": "^2.2.32",
-        "@types/node": "^6.0.40",
-        "mocha": "^2.3.3",
-        "typescript": "^2.0.3",
-        "vscode": "^1.1.36"
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^12.11.7",
+        "@types/vscode": "^1.41.0",
+        "mocha": "^6.2.2",
+        "typescript": "^3.6.4"
     },
-    "dependencies": {
-        "clipboardy": "^1.1.2"
-    }
+    "displayName": "JSONPath StatusBar",
+    "engines": {
+        "vscode": "^1.41.0"
+    },
+    "homepage": "https://github.com/richie5um/vscode-statusbar-json-path",
+    "icon": "resources/icon.png",
+    "license": "MIT",
+    "main": "./out/src/extension",
+    "name": "vscode-statusbar-json-path",
+    "publisher": "richie5um2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/richie5um/vscode-statusbar-json-path"
+    },
+    "scripts": {
+        "compile": "tsc -watch -p ./",
+        "test": "node ./node_modules/vscode/bin/test",
+        "vscode:prepublish": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "typings": "/node_modules/vscode/vscode.d.ts",
+    "version": "1.4.1"
 }

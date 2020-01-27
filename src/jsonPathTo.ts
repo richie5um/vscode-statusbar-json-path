@@ -8,96 +8,101 @@ interface Frame {
 }
 
 export function jsonPathTo(text: string, offset: number) {
-    let pos = 0
-    let stack: Frame[] = []
-    let isInKey = false
+    let pos = 0;
+    let stack: Frame[] = [];
+    let isInKey = false;
 
     // console.log('jsonPathTo:start', text, offset)
     while (pos < offset) {
         // console.log('jsonPathTo:step', pos, stack, isInKey)
-        const startPos = pos
+        const startPos = pos;
         switch (text[pos]) {
             case '"':
-                const { text: s, pos: newPos } = readString(text, pos)
+                const { text: s, pos: newPos } = readString(text, pos);
                 // console.log('jsonPathTo:readString', {s, pos, newPos, isInKey, frame: stack[stack.length - 1]})
                 if (stack.length) {
-                    const frame = stack[stack.length - 1]
+                    const frame = stack[stack.length - 1];
                     if (frame.colType == ColType.Object && isInKey) {
-                        frame.key = s
-                        isInKey = false
+                        frame.key = s;
+                        isInKey = false;
                     }
                 }
                 pos = newPos
-                break
+                break;
             case '{':
-                stack.push({ colType: ColType.Object })
-                isInKey = true
-                break
+                stack.push({ colType: ColType.Object });
+                isInKey = true;
+                break;
             case '[':
                 stack.push({ colType: ColType.Array, index: 0 })
-                break
+                break;
             case '}':
             case ']':
-                stack.pop()
-                break
+                stack.pop();
+                break;
             case ',':
                 if (stack.length) {
-                    const frame = stack[stack.length - 1]
-                    if (frame.colType == ColType.Object) {
-                        isInKey = true
-                    } else {
-                        frame.index++
+                    const frame = stack[stack.length - 1];
+                    if (frame) {
+                        if (frame.colType == ColType.Object) {
+                            isInKey = true;
+                        } else if (frame.index !== undefined) {
+                            frame.index++;
+                        }
                     }
                 }
-                break
+                break;
         }
         if (pos == startPos) {
-            pos++
+            pos++;
         }
     }
     // console.log('jsonPathTo:end', {stack})
 
-    return pathToString(stack)
+    return pathToString(stack);
 }
 
 function pathToString(path: Frame[]): string {
-    let s = ''
+    let s = '';
     for (const frame of path) {
         if (frame.colType == ColType.Object) {
-            if (!frame.key.match(/^[a-zA-Z$_][a-zA-Z\d$_]*$/)) {
-                const key = frame.key.replace('"', '\\"')
-                s += `["${frame.key}"]`
-            } else {
-                if (s.length) {
-                    s += '.'
+
+            if (frame.key) {
+                if (!frame.key.match(/^[a-zA-Z$_][a-zA-Z\d$_]*$/)) {
+                    const key = frame.key.replace('"', '\\"');
+                    s += `["${frame.key}"]`;
+                } else {
+                    if (s.length) {
+                        s += '.';
+                    }
+                    s += frame.key;
                 }
-                s += frame.key
             }
         } else {
-            s += `[${frame.index}]`
+            s += `[${frame.index}]`;
         }
     }
     return s
 }
 
 function readString(text: string, pos: number): { text: string, pos: number } {
-    let i = pos + 1
-    i = findEndQuote(text, i)
+    let i = pos + 1;
+    i = findEndQuote(text, i);
     var textpos = {
         text: text.substring(pos + 1, i),
         pos: i + 1
-    }
+    };
 
     // console.log('ReadString: text:' + textpos.text + ' :: pos: ' + pos)
-    return textpos
+    return textpos;
 }
 
-function isEven(n) {
+function isEven(n: number) {
     return n % 2 == 0;
 }
 
-function isOdd(n) {
-    return !isEven(n)
+function isOdd(n: number) {
+    return !isEven(n);
 }
 
 // Find the next end quote
@@ -105,19 +110,19 @@ function findEndQuote(text: string, i: number) {
     while (i < text.length) {
         // console.log('findEndQuote: ' + i + ' : ' + text[i])
         if (text[i] == '"') {
-            var bt = i
+            var bt = i;
 
             // Handle backtracking to find if this quote is escaped (or, if the escape is escaping a slash)
             while (0 <= bt && text[bt] == '\\') {
-                bt--
+                bt--;
             }
             if (isEven(i - bt)) {
                 break;
             }
         }
-        i++
+        i++;
     }
 
-    return i
+    return i;
 }
 

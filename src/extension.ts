@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import { jsonPathTo } from './jsonPathTo'
 
 let currentString: string = '';
-let status;
+let status: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
 

@@ -68,7 +68,7 @@ function pathToString(path: Frame[]): string {
         if (frame.colType == ColType.Object) {
 
             if (frame.key) {
-                if (!frame.key.match(/^[a-zA-Z$_][a-zA-Z\d$_]*$/)) {
+                if (!frame.key.match(/^[a-zA-Z$#@&%~-_][a-zA-Z\d$#@&%~-_]*$/)) {
                     const key = frame.key.replace('"', '\\"');
                     s += `["${frame.key}"]`;
                 } else {

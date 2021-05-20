@@ -1,6 +1,6 @@
 {
     "name": "vscode-statusbar-json-path",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "license": "MIT",
     "scripts": {
         "compile": "tsc -watch -p ./",
@@ -18,7 +18,9 @@
     },
     "activationEvents": [
         "onLanguage:json",
-        "onLanguage:jsonc"
+        "onLanguage:jsonc",
+        "onLanguage:asl",
+        "onLanguage:ssm-json"
     ],
     "author": "Rich Somerfield",
     "bugs": {

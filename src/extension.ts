@@ -4,7 +4,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import { jsonPathTo } from './jsonPathTo'
+import { jsonPathTo } from './jsonPathTo';
 
 let currentString: string = '';
 let status: vscode.StatusBarItem;
@@ -35,16 +35,20 @@ function updateStatus(status: vscode.StatusBarItem): void {
     currentString = '';
 
     const editor = vscode.window.activeTextEditor
-    if (!editor || !(editor.document.languageId.toLowerCase() === 'json' || editor.document.languageId.toLowerCase() === 'jsonc')) {
+    if (!editor || !(
+        editor.document.languageId.toLowerCase() === 'json' ||
+        editor.document.languageId.toLowerCase() === 'jsonc' ||
+        editor.document.languageId.toLowerCase() === 'asl' ||
+        editor.document.languageId.toLowerCase() === 'ssm-json')) {
         status.text = '';
-        return
+        return;
     }
 
     try {
-        const text = editor.document.getText()
+        const text = editor.document.getText();
         //JSON.parse(text)
 
-        const path = jsonPathTo(text, editor.document.offsetAt(editor.selection.active))
+        const path = jsonPathTo(text, editor.document.offsetAt(editor.selection.active));
         currentString = path;
 
         status.text = 'JSONPath: ' + path;

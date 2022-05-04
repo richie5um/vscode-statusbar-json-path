@@ -11,7 +11,7 @@ interface Frame {
   key?: string;
 }
 
-export function jsonPathTo(text: string, offset: number) {
+export function jsonPathTo(text: string, offset: number, separatorType: string) {
   let pos = 0;
   let stack: Frame[] = [];
   let isInKey = false;
@@ -59,10 +59,16 @@ export function jsonPathTo(text: string, offset: number) {
     }
   }
 
-  return pathToString(stack);
+  if (separatorType === "dots") {
+    return pathToStringDot(stack);
+  } else if (separatorType === "indexes") {
+    return pathToStringIndexes(stack);
+  } else {
+    return "";
+  }
 }
 
-function pathToString(path: Frame[]): string {
+function pathToStringDot(path: Frame[]): string {
   let s = "";
   for (const frame of path) {
     if (frame.colType === ColType.Object) {
@@ -74,6 +80,24 @@ function pathToString(path: Frame[]): string {
             s += ".";
           }
           s += frame.key;
+        }
+      }
+    } else {
+      s += `[${frame.index}]`;
+    }
+  }
+  return s;
+}
+
+function pathToStringIndexes(path: Frame[]): string {
+  let s = "";
+  for (const frame of path) {
+    if (frame.colType === ColType.Object) {
+      if (frame.key) {
+        if (!frame.key.match(/^[a-zA-Z$#@&%~\-_][a-zA-Z\d$#@&%~\-_]*$/)) {
+          s += `["${frame.key}"]`;
+        } else {
+          s += '["' + frame.key + '"]';
         }
       }
     } else {

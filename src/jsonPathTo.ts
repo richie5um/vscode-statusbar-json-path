@@ -37,8 +37,10 @@ export function jsonPathTo(text: string, offset: number, separatorType: string) 
       case "[":
         stack.push({ colType: ColType.Array, index: 0 });
         break;
-      case "}":
       case "]":
+        stack.pop();
+        break;
+      case "}":
         stack.pop();
         break;
       case ",":
@@ -117,23 +119,16 @@ function readString(text: string, pos: number): { text: string; pos: number } {
   return textPos;
 }
 
-function isEven(n: number) {
-  return n % 2 === 0;
-}
-
 // Find the next end quote
 function findEndQuote(text: string, i: number) {
   while (i < text.length) {
-    if (text[i] === '"') {
-      var bt = i;
+    // Handle backtracking to find if this quote is escaped
+    if (text[i] === "\\") {
+      i += 2;
+    }
 
-      // Handle backtracking to find if this quote is escaped (or, if the escape is escaping a slash)
-      while (0 <= bt && text[bt] === "\\") {
-        bt--;
-      }
-      if (isEven(i - bt)) {
-        break;
-      }
+    if (text[i] === '"') {
+      break;
     }
     i++;
   }

@@ -1,54 +1,79 @@
 {
-    "name": "vscode-statusbar-json-path",
-    "version": "1.4.5",
-    "license": "MIT",
-    "scripts": {
-        "compile": "tsc -watch -p ./",
-        "test": "node ./node_modules/vscode/bin/test",
-        "vscode:prepublish": "tsc -p ./",
-        "watch": "tsc -watch -p ./"
-    },
-    "dependencies": {},
-    "devDependencies": {
-        "@types/mocha": "^5.2.7",
-        "@types/node": "^12.11.7",
-        "@types/vscode": "^1.41.0",
-        "mocha": "^6.2.2",
-        "typescript": "^3.6.4"
-    },
-    "activationEvents": [
-        "onLanguage:json",
-        "onLanguage:jsonc",
-        "onLanguage:asl",
-        "onLanguage:ssm-json"
+  "name": "vscode-statusbar-json-path",
+  "displayName": "JSON Path Status Bar",
+  "description": "Shows the path to the selected JSON property in the status bar",
+  "version": "1.4.5",
+  "author": "Rich Somerfield",
+  "contributors": [
+    "Quentin Lienhardt"
+  ],
+  "publisher": "richie5um2",
+  "license": "MIT",
+  "homepage": "https://github.com/richie5um/vscode-statusbar-json-path",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richie5um/vscode-statusbar-json-path.git"
+  },
+  "bugs": {
+    "url": "https://github.com/richie5um/vscode-statusbar-json-path/issues"
+  },
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "activationEvents": [
+    "onLanguage:json",
+    "onLanguage:jsonc",
+    "onLanguage:asl",
+    "onLanguage:ssm-json"
+  ],
+  "icon": "resources/icon.png",
+  "main": "./out/extension.js",
+  "categories": [
+    "Other"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.statusBarJSONPath",
+        "title": "Copy current JSONPath to clipboard"
+      }
     ],
-    "author": "Rich Somerfield",
-    "bugs": {
-        "url": "https://github.com/richie5um/vscode-statusbar-json-path/issues"
-    },
-    "categories": [
-        "Other"
-    ],
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.statusBarJSONPath",
-                "title": "Copy current JSONPath to clipboard"
-            }
-        ]
-    },
-    "description": "Shows the path to the selected JSON Property in the StatusBar",
-    "displayName": "JSONPath StatusBar",
-    "engines": {
-        "vscode": "^1.41.0"
-    },
-    "homepage": "https://github.com/richie5um/vscode-statusbar-json-path",
-    "icon": "resources/icon.png",
-    "main": "./out/src/extension",
-    "publisher": "richie5um2",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/richie5um/vscode-statusbar-json-path"
-    },
-    "typings": "/node_modules/vscode/vscode.d.ts"
+    "configuration": {
+      "type": "object",
+      "title": "JSONPath StatusBar",
+      "properties": {
+        "statusBarJSONPath.keysSeparators": {
+          "type": "string",
+          "default": "dots",
+          "description": "Choose between `dots` or `indexes` for JSON keys.",
+          "enum": [
+            "dots",
+            "indexes"
+          ],
+          "enumDescriptions": [
+            "Use dots (JS friendly) for keys separators",
+            "Use indexes (Python friendly) for keys separators"
+          ],
+          "scope": "resource"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.11",
+    "@types/vscode": "^1.70.0",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
+    "eslint": "^8.22.0",
+    "typescript": "^4.7.4",
+    "vsce": "^2.10.2"
+  }
 }

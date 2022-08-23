@@ -2,7 +2,7 @@
   "name": "vscode-statusbar-json-path",
   "displayName": "JSON Path Status Bar",
   "description": "Shows the path to the selected JSON property in the status bar",
-  "version": "1.4.5",
+  "version": "2.0.0",
   "author": "Rich Somerfield",
   "contributors": [
     "Quentin Lienhardt"
